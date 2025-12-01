@@ -1,6 +1,7 @@
 package com.example.DicionarioPlantae.entity;
 
 import jakarta.persistence.*;
+import java.util.Set;
 
 @Entity
 public class CategoriaTaxonomica {
@@ -16,8 +17,8 @@ public class CategoriaTaxonomica {
     @Column(name="categoria_taxonomica_status")
     private int status;
 
-    @OneToMany(mappedBy = "categoria_taxonomica")
-    private Set<>
+    @OneToMany(mappedBy = "categoriaTaxonomica")
+    private Set<Planta> plantas;
 
 
 }

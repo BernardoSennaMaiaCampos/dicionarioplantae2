@@ -1,5 +1,6 @@
 package com.example.DicionarioPlantae.controller;
 
+import com.example.DicionarioPlantae.entity.Planta;
 import com.example.DicionarioPlantae.service.PlantaService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -21,7 +22,7 @@ public class PlantaController {
 
     @GetMapping("/listar")
     @Operation(summary="Listar plantas", description = "Endpoint para listar todas as plantas")
-    public ResponseEntity<list<planta>> listarPlantas(){
+    public ResponseEntity<List<Planta>> listarPlantas(){
         return ResponseEntity.ok(plantaService.listarPlanta());
     }
 

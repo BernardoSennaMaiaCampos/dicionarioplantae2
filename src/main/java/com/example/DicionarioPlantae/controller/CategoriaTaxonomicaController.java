@@ -24,16 +24,16 @@ public class CategoriaTaxonomicaController {
 
     @GetMapping("/listar")
     @Operation(summary="Listar categorias", description = "Endpoint para listar todos os CategoriasTaxonomicas")
-    public ResponseEntity<list<CategoriaTaxonomica>> listarCategoriaTaxonomica(){
+    public ResponseEntity<List<CategoriaTaxonomica>> listarCategoriaTaxonomica(){
         return ResponseEntity.ok(categoriaTaxonomicaService.listarCategoriaTaxonomica());
     }
 
 
-    @GetMapping("/listar/{categoriaTaxonomicaId")
+    @GetMapping("/listar/{categoriaTaxonomicaId}")
     @Operation(summary="", description="")
-    public ResponseEntity<CategoriaTaxonomica> listarPorCategoriaTaxonomicaId(@PathVariable(categoriaTaxonomicaId) Integer categoriaTaxonomicaId) {
+    public ResponseEntity<CategoriaTaxonomica> listarPorCategoriaTaxonomicaId(@PathVariable("categoriaTaxonomicaId") Integer categoriaTaxonomicaId) {
         CategoriaTaxonomica categoriaTaxonomica = categoriaTaxonomicaService.listarPorCategoriaTaxonomicaId(categoriaTaxonomicaId);
-        if (categoriaTaxonomica = null) {
+        if (categoriaTaxonomica == null) {
             return ResponseEntity.noContent().build();
         } else {
             return ResponseEntity.ok(categoriaTaxonomica);
@@ -42,21 +42,21 @@ public class CategoriaTaxonomicaController {
 
     @PostMapping("/criar")
     @Operation(summary = "Criar uma categoria")
-    public ResponseEntity<CategoriaTaxonomicaDTOResponse> criarCategoriaTaxonomica(@Valid @RequestBody CategoriaTaxonomicaDTORequest categoriaTaxonomica){
+    public ResponseEntity<CategoriaTaxonomicaDTOResponse> criarCategoriaTaxonomica(@Valid @RequestBody CategoriaTaxonomicaDTORequest categoriaTaxonomicaDTORequest){
         return ResponseEntity.ok(categoriaTaxonomicaService.salvar(categoriaTaxonomicaDTORequest));
     }
 
     @PutMapping("/atualizar/{IdCategoriaTaxonomica}")
     @Operation(summary = "Atualizar uma categoria")
     public ResponseEntity<CategoriaTaxonomicaDTOResponse> atualizarCategoriaTaxonomica(@PathVariable("IdCategoriaTaxonomica") Integer idCategoriaTaxonomica, @RequestBody CategoriaTaxonomicaDTORequest request){
-        return ResponseEntity.ok(this.categoriaTaxonomicaService.atualizarCategoriaTaxonomica(IdCategoriaTaxonomica, request));
+        return ResponseEntity.ok(this.categoriaTaxonomicaService.atualizarCategoriaTaxonomica(idCategoriaTaxonomica, request));
     }
 
-    @DeleteMapping("/apagar/{IdCategoriaTaxonomica")
+    @DeleteMapping("/apagar/{IdCategoriaTaxonomica}")
     @Operation(summary = "Apgar uma categoria")
-    public ResponseEntity<CategoriaDTOResponse> apagarCategoriaTaxonomica(@PathVariable("IdCategoriaTaxonomica") Integer IdCategoriaTaxonomica){
+    public ResponseEntity<Void> apagarCategoriaTaxonomica(@PathVariable("IdCategoriaTaxonomica") Integer IdCategoriaTaxonomica){
         this.categoriaTaxonomicaService.apagarCategoriaTaxonomica(IdCategoriaTaxonomica);
-        return ResponseEntity.no.Content().build();
+        return ResponseEntity.noContent().build();
     }
 
 }

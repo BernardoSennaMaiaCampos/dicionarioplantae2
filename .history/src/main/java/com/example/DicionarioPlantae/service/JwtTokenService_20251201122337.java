@@ -1,0 +1,50 @@
+package com.example.DicionarioPlantae.service;
+
+import org.springframework.stereotype.Service;
+
+import java.time.ZonedDateTime;
+
+@Service
+public class JwtTokenService {
+
+    private static final String SECRET_KEY = "acredite-no-seu-potencial-o-pior-que-pode-acontecer-e-voce-estar-errado-e-ser-um-merda";
+
+    private static final String ISSUER = "plantae-api";
+
+    public String generateToken(UserDetailsImpl user){
+        try{
+            Algorithm algorithm = Algorithm.HMAC256(SECRET_KEY);
+            return JWT.create()
+                    .withIssuer(ISSUER)
+                    .withIssuedAt(creationDate())
+                    .withExpiresAt(expirationDate())
+                    .withSubject(user.getUsername())
+                    .sign(algorithm);
+        }catch (JWTCreationException exception){
+            throw new JWTCreationException("Erro ao gerar token.", exception);
+        }
+    }
+
+    public String getSubjectFromToken(String token){
+        try{
+            Algorithm algorithm = Algorithm.HMAC256(SECRET_KEY);
+            return JWT.require(algorithm)
+                    .withIssuer(ISSUER)
+                    .build()
+                    .verify(token)
+                    .getSubject();
+        } catch (JWTVerificationException exception){
+            throw new JWTVerificationException("Token inválido ou expirado.");
+        }
+    }
+
+    private Instant creationDate(){
+        return ZonedDateTime.now(ZoneId.of("America/Recife")).toInstant();
+    }
+
+    private Instant expirationDate(){
+        return ZoneDateTime.now(ZoneId.of("America/Recife")).plusHours(4).toInstant();
+    }
+
+
+}

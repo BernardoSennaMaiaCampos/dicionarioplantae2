@@ -19,20 +19,20 @@ import java.util.List;
 public class OrigemController {
     private final OrigemService origemService;
 
-    public OrigemController(OrigemController origemService) { this.origemService = origemService;}
+    public OrigemController(OrigemService origemService) { this.origemService = origemService;}
 
     @GetMapping("/listar")
     @Operation(summary = "Listar origens ligadas a plantas no sistema")
-    public ResponseEntity<List<Origem>> listar() {return ResponseEntity.ok(origemService.listarOrigem));}
+    public ResponseEntity<List<Origem>> listar() {return ResponseEntity.ok(origemService.listar());}
 
-    @GetMapping("/listarPorIdOrigem/{IdOrigem")
+    @GetMapping("/listarPorIdOrigem/{IdOrigem}")
     @Operation(summary = "Listar origens de plantas do sistema pelo id da origem")
     public ResponseEntity<Origem> listarPorIdOrigem(@PathVariable("IdOrigem") Integer IdOrigem){
         Origem origem = origemService.listarOrigemPorId(IdOrigem);
-        if(Origem == null){
+        if(origem == null){
             return ResponseEntity.noContent().build();
         }else{
-            return ResponseEntity.ok(Origem);
+            return ResponseEntity.ok(origem);
         }
     }
 

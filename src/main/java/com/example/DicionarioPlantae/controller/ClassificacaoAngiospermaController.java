@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("api/classificacaoangiosperma")
 @Tag(name="classificacaoangiosperma", description = "API para gerenciamento de classificacao de angiospermas")
@@ -32,7 +34,7 @@ public class ClassificacaoAngiospermaController {
     @GetMapping("/listar")
     @Operation(summary="Listar classificacao angiospermas", description="Endpoint para listar todas as classificacoes de angiospermas")
     public ResponseEntity<List<ClassificacaoAngiosperma>> listarClassificacaoAngiosperma(){
-        return ResponseEntity.ok(ClassificacaoAngiospermaService.listarClassificacaoAngiosperma());
+        return ResponseEntity.ok(this.classificacaoAngiospermaService.listarClassificacaoAngiosperma());
     }
 
 
