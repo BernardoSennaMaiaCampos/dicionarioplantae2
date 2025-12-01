@@ -12,7 +12,6 @@ public class UserDTORequest {
     @Size(min = 11, max = 11, message = "O cpf tem que ter 11 caracteres")
     @NotBlank(message = "o cpf é obrigatório")
     private String cpf;
-    @ValidaDataNascimento
     private LocalDate dataNascimento;
 
     public String getNome() {

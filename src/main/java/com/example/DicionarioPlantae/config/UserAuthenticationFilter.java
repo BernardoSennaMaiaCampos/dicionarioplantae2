@@ -29,7 +29,7 @@ public class UserAuthenticationFilter extends OncePerRequestFilter {
     private UserRepository userRepository;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterchain) {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws jakarta.servlet.ServletException, java.io.IOException {
         if(checkIfEndpointIsNotPublic(request)){
             String token = recoveryToken(request);
             if (token != null) {

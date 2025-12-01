@@ -3,6 +3,8 @@ package com.example.DicionarioPlantae.controller;
 import com.example.DicionarioPlantae.dto.CreateUserDto;
 import com.example.DicionarioPlantae.dto.LoginUserDto;
 import com.example.DicionarioPlantae.dto.RecoveryJwtTokenDto;
+import com.example.DicionarioPlantae.dto.request.UserDTORequest;
+import com.example.DicionarioPlantae.dto.response.UserDTOResponse;
 import com.example.DicionarioPlantae.entity.User;
 import com.example.DicionarioPlantae.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -45,21 +47,21 @@ public class UserController {
 
     @PostMapping("/criar")
     @Operation(summary = "Criar um novo usuario")
-    public ResponseEntity<UserDtoResponse> criar(@Valid @RequestBody UserDtoRequest userDtoRequest){
+    public ResponseEntity<UserDTOResponse> criar(@Valid @RequestBody UserDTORequest userDtoRequest){
         return ResponseEntity.ok(userService.salvar(userDtoRequest));
     }
 
     @PutMapping("/atualizar/{idUser}")
     @Operation(summary = "Atualizar todos os dados um usuario")
-    public ResponseEntity<UserDtoResponse> atualizar(
+    public ResponseEntity<UserDTOResponse> atualizar(
             @Valid @PathVariable("idUser") Integer idUser,
-            @RequestBody UserDtoRequest userDtoRequest){
+            @RequestBody UserDTORequest userDtoRequest){
         return ResponseEntity.ok(userService.atualizar(idUser, userDtoRequest));
     }
 
     @DeleteMapping("/apagar/{idUser}")
     @Operation(summary = "Apagar usuario pelo idUsuario")
-    public ResponseEntity<UserDtoResponse> apagar(@PathVariable("idUser") Integer idUser){
+    public ResponseEntity<UserDTOResponse> apagar(@PathVariable("idUser") Integer idUser){
         userService.apagar(idUser);
         return ResponseEntity.noContent().build();
     }
