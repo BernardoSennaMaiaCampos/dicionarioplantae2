@@ -2,9 +2,11 @@ package com.example.DicionarioPlantae.service;
 
 
 
-import com.example.DicionarioPlantae.dto.request.UserDTORequest;
-import com.example.DicionarioPlantae.dto.response.UserDTOResponse;
+import com.example.DicionarioPlantae.dto.request.UsuarioRequest;
+import com.example.DicionarioPlantae.dto.response.UsuarioResponse;
 import com.example.DicionarioPlantae.entity.Usuario;
+import com.example.DicionarioPlantae.repository.UsuarioRepository;
+import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,17 +30,17 @@ public class UsuarioService {
     return usuarioRepository.findById(Long.valueOf(idUsuario)).orElse(null);
   }
 
-  public UsuarioDTOResponse salvar(UsuarioDTORequest usuarioDTORequest) {
+  public UsuarioResponse salvar(@Valid UsuarioRequest usuarioDTORequest) {
     Usuario usuario = modelMapper.map(usuarioDTORequest, Usuario.class);
     Usuario savedUsuario = usuarioRepository.save(usuario);
-    return modelMapper.map(savedUsuario, UsuarioDTOResponse.class);
+    return modelMapper.map(savedUsuario, UsuarioResponse.class);
   }
 
-  public UsuarioDTOResponse atualizar(Integer idUsuario, UsuarioDTORequest usuarioDTORequest) {
+  public UsuarioResponse atualizar(Integer idUsuario, UsuarioRequest usuarioDTORequest) {
     Usuario usuario = usuarioRepository.findById(Long.valueOf(idUsuario)).orElseThrow(() -> new RuntimeException("User not found"));
     modelMapper.map(usuarioDTORequest, usuario);
     Usuario updatedUsuario = usuarioRepository.save(usuario);
-    return modelMapper.map(updatedUsuario, UsuarioDTOResponse.class);
+    return modelMapper.map(updatedUsuario, UsuarioResponse.class);
   }
 
   public void apagar(Integer idUser) {

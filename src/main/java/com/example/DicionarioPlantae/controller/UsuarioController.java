@@ -1,7 +1,7 @@
 package com.example.DicionarioPlantae.controller;
 
-import com.example.DicionarioPlantae.dto.request.UserDTORequest;
-import com.example.DicionarioPlantae.dto.response.UserDTOResponse;
+import com.example.DicionarioPlantae.dto.request.UsuarioRequest;
+import com.example.DicionarioPlantae.dto.response.UsuarioResponse;
 import com.example.DicionarioPlantae.entity.Usuario;
 import com.example.DicionarioPlantae.service.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -29,9 +29,9 @@ public class UsuarioController {
     return ResponseEntity.ok(usuarioService.listarUsuario());
   }
 
-  @GetMapping("/listarPorIdUser/{idUser}")
+  @GetMapping("/listarPorIdUsuario/{idUsuario}")
   @Operation(summary = "Listar usuarios do sistema pelo id do usuário")
-  public ResponseEntity<Usuario> listarPorIdUsuario(@PathVariable("idUsuario") Integer idUser){
+  public ResponseEntity<Usuario> listarPorIdUsuario(@PathVariable("idUsuario") Integer idUsuario){
     Usuario usuario = usuarioService.listarUsuarioPorId(idUsuario);
     if (usuario == null) {
       return ResponseEntity.noContent().build();
@@ -42,22 +42,22 @@ public class UsuarioController {
 
   @PostMapping("/criar")
   @Operation(summary = "Criar um novo usuario")
-  public ResponseEntity<UserDTOResponse> criar(@Valid @RequestBody UserDTORequest userDtoRequest){
-    return ResponseEntity.ok(usuarioService.salvar(userDtoRequest));
+  public ResponseEntity<UsuarioResponse> criar(@Valid @RequestBody UsuarioRequest usuarioRequest){
+    return ResponseEntity.ok(usuarioService.salvar(usuarioRequest));
   }
 
-  @PutMapping("/atualizar/{idUser}")
+  @PutMapping("/atualizar/{id}")
   @Operation(summary = "Atualizar todos os dados um usuario")
-  public ResponseEntity<UserDTOResponse> atualizar(
-      @Valid @PathVariable("idUser") Integer idUser,
-      @RequestBody UserDTORequest userDtoRequest){
-    return ResponseEntity.ok(usuarioService.atualizar(idUser, userDtoRequest));
+  public ResponseEntity<UsuarioResponse> atualizar(
+      @Valid @PathVariable("idUsuario") Integer idUsuario,
+      @RequestBody UsuarioRequest usuarioRequest){
+    return ResponseEntity.ok(usuarioService.atualizar(idUsuario, usuarioRequest));
   }
 
-  @DeleteMapping("/apagar/{idUser}")
+  @DeleteMapping("/apagar/{idUsuario}")
   @Operation(summary = "Apagar usuario pelo idUsuario")
-  public ResponseEntity<UserDTOResponse> apagar(@PathVariable("idUser") Integer idUser){
-    usuarioService.apagar(idUser);
+  public ResponseEntity<UsuarioResponse> apagar(@PathVariable("idUsuario") Integer idUsuario){
+    usuarioService.apagar(idUsuario);
     return ResponseEntity.noContent().build();
   }
 }
