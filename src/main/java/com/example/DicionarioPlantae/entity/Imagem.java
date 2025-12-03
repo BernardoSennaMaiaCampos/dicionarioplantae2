@@ -12,6 +12,22 @@ public class Imagem {
   @Column(name="imagem_id")
   private Integer id;
 
+  @Column(name="imagem_tipo")
+  private String tipo;
+
+  @Column(name="imagem_url")
+  private String url;
+
+  @Column(name="imagem_status")
+  private Integer status;
+
+  @ManyToOne
+  @JoinColumn(name = "planta_id", nullable = false)
+  @JsonIgnore
+  private Planta planta;
+
+  @OneToMany (mappedBy = "imagem")
+
   public Integer getId() {
     return id;
   }
@@ -52,19 +68,7 @@ public class Imagem {
     this.planta = planta;
   }
 
-  @Column(name="imagem_tipo")
-  private String tipo;
 
-  @Column(name="imagem_url")
-  private String url;
-
-  @Column(name="imagem_status")
-  private Integer status;
-
-  @ManyToOne
-  @JoinColumn(name = "planta_id", nullable = false)
-  @JsonIgnore
-  private Planta planta;
 
 
 

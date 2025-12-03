@@ -1,6 +1,6 @@
 package com.example.DicionarioPlantae.dto;
 
-import com.example.DicionarioPlantae.entity.Role;
+import com.example.DicionarioPlantae.entity.Roles.Role;
 
 import java.util.List;
 

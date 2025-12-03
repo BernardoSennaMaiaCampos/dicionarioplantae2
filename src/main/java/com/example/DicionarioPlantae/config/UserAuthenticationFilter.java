@@ -1,15 +1,15 @@
 package com.example.DicionarioPlantae.config;
 
 
-import com.example.DicionarioPlantae.entity.User;
-import com.example.DicionarioPlantae.repository.UserRepository;
+import com.example.DicionarioPlantae.entity.Usuario;
+import com.example.DicionarioPlantae.entity.Usuario;
+import com.example.DicionarioPlantae.repository.UsuarioRepository;
 import com.example.DicionarioPlantae.service.JwtTokenService;
 import com.example.DicionarioPlantae.service.UserDetailsImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -26,7 +26,7 @@ public class UserAuthenticationFilter extends OncePerRequestFilter {
     private JwtTokenService jwtTokenService;
 
     @Autowired
-    private UserRepository userRepository;
+    private UsuarioRepository usuarioRepository;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws jakarta.servlet.ServletException, java.io.IOException {
@@ -34,8 +34,8 @@ public class UserAuthenticationFilter extends OncePerRequestFilter {
             String token = recoveryToken(request);
             if (token != null) {
                 String subject = jwtTokenService.getSubjectFromToken(token);
-                User user = userRepository.findByEmail(subject).get();
-                UserDetailsImpl userDetails = new UserDetailsImpl(user);
+                Usuario usuario = usuarioRepository.findByEmail(subject).get();
+                UserDetailsImpl userDetails = new UserDetailsImpl(usuario);
 
                 Authentication authentication =
                         new UsernamePasswordAuthenticationToken(userDetails.getUsername(), null, userDetails.getAuthorities());
@@ -59,6 +59,8 @@ public class UserAuthenticationFilter extends OncePerRequestFilter {
 
     private boolean checkIfEndpointIsNotPublic(HttpServletRequest request){
         String requestURI = request.getRequestURI();
-        return !Arrays.asList(SecurityConfiguration.ENDPOINTS_WITH_AUTHENTICATION_NOT_REQUIRED).contains(requestURI);
+        return Arrays.stream(SecurityConfiguration.ENDPOINTS_WITH_AUTHENTICATION_NOT_REQUIRED).noneMatch(publicEndpoint ->
+            requestURI.startsWith(publicEndpoint.replace("/**", "")) // suporta wildcard
+        );
     }
 }

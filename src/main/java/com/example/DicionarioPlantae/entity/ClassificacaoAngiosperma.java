@@ -11,6 +11,12 @@ public class ClassificacaoAngiosperma {
   @Column(name = "classificacao_angiosperma_id")
   private Integer id;
 
+  @Column(name = "classificacao_angiosperma_nome")
+  private String nome;
+
+  @Column(name = "classificacao_angiosperma_status")
+  private Integer status;
+
   public Integer getId() {
     return id;
   }
@@ -35,10 +41,6 @@ public class ClassificacaoAngiosperma {
     this.status = status;
   }
 
-  @Column(name = "classificacao_angiosperma_nome")
-  private String nome;
 
-  @Column(name = "classificacao_angiosperma_status")
-  private Integer status;
 
 }

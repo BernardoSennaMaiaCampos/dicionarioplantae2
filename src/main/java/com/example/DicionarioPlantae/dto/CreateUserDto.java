@@ -1,6 +1,6 @@
 package com.example.DicionarioPlantae.dto;
 
-import com.example.DicionarioPlantae.entity.RoleName;
+import com.example.DicionarioPlantae.entity.Roles.RoleName;
 
 public record CreateUserDto (
 

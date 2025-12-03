@@ -10,6 +10,12 @@ public class Origem {
   @Column(name="origem_id")
   private Integer id;
 
+  @Column(name="origem_tipo")
+  private String origem_tipo;
+
+  @Column(name="origem_status")
+  private Integer origem_status;
+
   public Integer getId() {
     return id;
   }
@@ -34,11 +40,7 @@ public class Origem {
     this.origem_status = origem_status;
   }
 
-  @Column(name="origem_tipo")
-  private String origem_tipo;
 
-  @Column(name="origem_status")
-  private Integer origem_status;
 
 
 }

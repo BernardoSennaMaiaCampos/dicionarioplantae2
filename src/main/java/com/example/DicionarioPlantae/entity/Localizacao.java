@@ -14,6 +14,25 @@ public class Localizacao {
     @Column(name="localizacao_id")
     private int id;
 
+    @Column(name="localizacao_status")
+    private Integer status;
+
+    @Column(name="localizacao_regiao")
+    private String regiao;
+
+    @Column(name="localizacao_latitude")
+    private DecimalFormat latitude;
+
+    @Column(name="localizacao_longitude")
+    private DecimalFormat longitude;
+
+    @ManyToOne
+    @JoinColumn(name = "planta_id", nullable = false)
+    @JsonIgnore
+    private Planta planta;
+
+    @OneToMany (mappedBy = "localizacao")
+
     public int getId() {
         return id;
     }
@@ -62,23 +81,6 @@ public class Localizacao {
         this.planta = planta;
     }
 
-    @Column(name="localizacao_status")
-    private Integer status;
 
-    @Column(name="localizacao_regiao")
-    private String regiao;
-
-    @Column(name="localizacao_latitude")
-    private DecimalFormat latitude;
-
-    @Column(name="localizacao_longitude")
-    private DecimalFormat longitude;
-
-    @ManyToOne
-    @JoinColumn(name = "planta_id", nullable = false)
-    @JsonIgnore
-    private Planta planta;
-
-    @OneToMany (mappedBy = "planta")
 
 }

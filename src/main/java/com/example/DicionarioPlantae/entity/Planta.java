@@ -23,6 +23,43 @@ public class Planta {
   @Column (name="planta_comestivel")
   private Integer comestivel;
 
+  @Column (name="planta_status")
+  private Integer status;
+
+  @JsonIgnore
+  @ManyToOne
+  @JoinColumn(name ="categoria_taxonomica_id", nullable = false)
+  private Categoria_taxonomica categoria_taxonomica;
+
+  @JsonIgnore
+  @ManyToOne
+  @JoinColumn(name = "origem_id", nullable = false)
+  private Origem origem;
+
+  @JsonIgnore
+  @ManyToOne
+  @JoinColumn(name = "classificacao_angiosperma", nullable = false)
+  private Classificao_angiosperma Classificacao_angiosperma;
+
+  @OneToMany (mappedBy = "planta")
+
+  public Categoria_taxonomica getCategoria_taxonomica() {
+    return categoria_taxonomica;
+  }
+
+  public void setCategoria_taxonomica(Categoria_taxonomica categoria_taxonomica) {
+    this.categoria_taxonomica = categoria_taxonomica;
+  }
+
+  public Classificao_angiosperma getClassificacao_angiosperma() {
+    return Classificacao_angiosperma;
+  }
+
+  public void setClassificacao_angiosperma(Classificao_angiosperma classificacao_angiosperma) {
+    Classificacao_angiosperma = classificacao_angiosperma;
+  }
+
+
   public Integer getId() {
     return id;
   }
@@ -63,13 +100,6 @@ public class Planta {
     this.status = status;
   }
 
-  public Categoria_taxonomica getCategoria_taxonomica() {
-    return categoria_taxonomica;
-  }
-
-  public void setCategoria_taxonomica(Categoria_taxonomica categoria_taxonomica) {
-    this.categoria_taxonomica = categoria_taxonomica;
-  }
 
   public Origem getOrigem() {
     return origem;
@@ -79,33 +109,12 @@ public class Planta {
     this.origem = origem;
   }
 
-  public Classificacao_angiosperma getClassificacao_angiosperma() {
-    return classificacao_angiosperma;
-  }
-
-  public void setClassificacao_angiosperma(Classificacao_angiosperma classificacao_angiosperma) {
-    this.classificacao_angiosperma = classificacao_angiosperma;
-  }
-
-  @Column (name="planta_status")
-  private Integer status;
 
 
-  @JsonIgnore
-  @ManyToOne
-  @JoinColumn(name ="categoria_taxonomica_id", nullable = false)
-  private Categoria_taxonomica categoria_taxonomica;
 
-  @JsonIgnore
-  @ManyToOne
-  @JoinColumn(name = "origem_id", nullable = false)
-  private Origem origem;
 
-  @JsonIgnore
-  @ManyToOne
-  @JoinColumn(name = "classificacao_angiosperma", nullable = false)
-  private Classificacao_angiosperma classificacao_angiosperma;
 
-  @OneToMany (mappedBy = "planta")
+
+
 
 }

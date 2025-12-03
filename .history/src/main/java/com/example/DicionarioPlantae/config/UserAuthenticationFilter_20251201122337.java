@@ -2,7 +2,6 @@ package com.example.DicionarioPlantae.config;
 
 
 import com.example.DicionarioPlantae.entity.User;
-import com.example.DicionarioPlantae.repository.UserRepository;
 import com.example.DicionarioPlantae.service.JwtTokenService;
 import com.example.DicionarioPlantae.service.UserDetailsImpl;
 import jakarta.servlet.FilterChain;

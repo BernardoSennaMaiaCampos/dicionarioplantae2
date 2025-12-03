@@ -11,6 +11,19 @@ public class Manejo {
     @Column(name="manejo_id")
     private int id;
 
+    @Column(name="manejo_descricao")
+    private String descricao;
+
+    @Column(name="manejo_status")
+    private int status;
+
+    @ManyToOne
+    @JoinColumn(name = "planta_id", nullable = false)
+    @JsonIgnore
+    private Planta planta;
+
+    @OneToMany (mappedBy = "manejo")
+
     public int getId() {
         return id;
     }
@@ -43,14 +56,5 @@ public class Manejo {
         this.planta = planta;
     }
 
-    @Column(name="manejo_descricao")
-    private String descricao;
 
-    @Column(name="manejo_status")
-    private int status;
-
-    @ManyToOne
-    @JoinColumn(name = "planta_id", nullable = false)
-    @JsonIgnore
-    private Planta planta;
 }
