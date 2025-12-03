@@ -1,5 +1,6 @@
 package com.example.DicionarioPlantae.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -10,12 +11,6 @@ public class Manejo {
     @Column(name="manejo_id")
     private int id;
 
-    @Column(name="manejo_nome")
-    private String nome;
-
-    @Column(name="manejo_status")
-    private int status;
-
     public int getId() {
         return id;
     }
@@ -24,12 +19,12 @@ public class Manejo {
         this.id = id;
     }
 
-    public String getNome() {
-        return nome;
+    public String getDescricao() {
+        return descricao;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 
     public int getStatus() {
@@ -39,4 +34,23 @@ public class Manejo {
     public void setStatus(int status) {
         this.status = status;
     }
+
+    public Planta getPlanta() {
+        return planta;
+    }
+
+    public void setPlanta(Planta planta) {
+        this.planta = planta;
+    }
+
+    @Column(name="manejo_descricao")
+    private String descricao;
+
+    @Column(name="manejo_status")
+    private int status;
+
+    @ManyToOne
+    @JoinColumn(name = "planta_id", nullable = false)
+    @JsonIgnore
+    private Planta planta;
 }

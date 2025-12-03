@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "imagem")
 public class Imagem {
 
   @Id
@@ -19,28 +20,28 @@ public class Imagem {
     this.id = id;
   }
 
-  public String getImagem_tipo() {
-    return imagem_tipo;
+  public String getTipo() {
+    return tipo;
   }
 
-  public void setImagem_tipo(String imagem_tipo) {
-    this.imagem_tipo = imagem_tipo;
+  public void setTipo(String tipo) {
+    this.tipo = tipo;
   }
 
-  public String getImagem_url() {
-    return imagem_url;
+  public String getUrl() {
+    return url;
   }
 
-  public void setImagem_url(String imagem_url) {
-    this.imagem_url = imagem_url;
+  public void setUrl(String url) {
+    this.url = url;
   }
 
-  public Integer getImagem_status() {
-    return imagem_status;
+  public Integer getStatus() {
+    return status;
   }
 
-  public void setImagem_status(Integer imagem_status) {
-    this.imagem_status = imagem_status;
+  public void setStatus(Integer status) {
+    this.status = status;
   }
 
   public Planta getPlanta() {
@@ -52,13 +53,13 @@ public class Imagem {
   }
 
   @Column(name="imagem_tipo")
-  private String imagem_tipo;
+  private String tipo;
 
   @Column(name="imagem_url")
-  private String imagem_url;
+  private String url;
 
   @Column(name="imagem_status")
-  private Integer imagem_status;
+  private Integer status;
 
   @ManyToOne
   @JoinColumn(name = "planta_id", nullable = false)
