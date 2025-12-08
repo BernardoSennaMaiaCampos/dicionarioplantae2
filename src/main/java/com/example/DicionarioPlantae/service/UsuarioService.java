@@ -2,13 +2,17 @@ package com.example.DicionarioPlantae.service;
 
 
 
+import com.example.DicionarioPlantae.config.SecurityConfiguration;
 import com.example.DicionarioPlantae.dto.request.UsuarioRequest;
 import com.example.DicionarioPlantae.dto.response.UsuarioResponse;
+import com.example.DicionarioPlantae.entity.Roles.Role;
 import com.example.DicionarioPlantae.entity.Usuario;
+import com.example.DicionarioPlantae.repository.RoleRepository;
 import com.example.DicionarioPlantae.repository.UsuarioRepository;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,33 +22,114 @@ public class UsuarioService {
 
   @Autowired
   private UsuarioRepository usuarioRepository;
+    @Autowired
+    private AuthenticationManager authenticationManager;
+    @Autowired
+    private JwtTokenService jwtTokenService;
+    private final UsuarioRepository usuarioRepository;
 
-  @Autowired
-  private ModelMapper modelMapper;
+    private final RoleRepository roleRepository;
+    @Autowired
+    private SecurityConfiguration securityConfiguration;
 
-  public List<Usuario> listarUsuario() {
-    return usuarioRepository.findAll();
-  }
+    private ModelMapper modelMapper;
 
-  public Usuario listarUsuarioPorId(Integer idUsuario) {
-    return usuarioRepository.findById(Long.valueOf(idUsuario)).orElse(null);
-  }
+    public UsuarioService(UsuarioRepository usuarioRepository, ModelMapper modelMapper, RoleRepository roleRepository) {
+        this.usuarioRepository = usuarioRepository;
+        this.modelMapper = modelMapper;
+        this.roleRepository = roleRepository;
+    }
+    public UsuarioResponse criarUsuario(UsuarioRequest usuarioRequest) {
+        Role role = new Role();
+        role= roleRepository.findByName(usuarioRequest.getRole());
 
-  public UsuarioResponse salvar(@Valid UsuarioRequest usuarioDTORequest) {
-    Usuario usuario = modelMapper.map(usuarioDTORequest, Usuario.class);
-    Usuario savedUsuario = usuarioRepository.save(usuario);
-    return modelMapper.map(savedUsuario, UsuarioResponse.class);
-  }
+        Usuario usuario = new Usuario();
+        usuario.setNome(usuarioRequest.getNome());
+        usuario.setCargo(usuarioRequest.getCargo());
+        usuario.setImagem(usuarioRequest.getImagem());
+        usuario.setEmail(usuarioRequest.getEmail());
+        usuario.setSenha(securityConfiguration.passwordEncoder().encode(usuarioRequest.getSenha()));
+        usuario.setStatus(usuarioRequest.getStatus());
+        usuario.setRoles(List.of(role));
 
-  public UsuarioResponse atualizar(Integer idUsuario, UsuarioRequest usuarioDTORequest) {
-    Usuario usuario = usuarioRepository.findById(Long.valueOf(idUsuario)).orElseThrow(() -> new RuntimeException("User not found"));
-    modelMapper.map(usuarioDTORequest, usuario);
-    Usuario updatedUsuario = usuarioRepository.save(usuario);
-    return modelMapper.map(updatedUsuario, UsuarioResponse.class);
-  }
+        Usuario usuarioSalvo = this.usuarioRepository.save(usuario);
 
-  public void apagar(Integer idUser) {
-    usuarioRepository.deleteById(Long.valueOf(idUsuario));
-  }
+        UsuarioResponse usuarioResponse = new UsuarioResponse();
+        usuarioResponse.setId(usuarioSalvo.getId());
+        usuarioResponse.setNome(usuarioSalvo.getNome());
+        usuarioResponse.setCargo(usuarioSalvo.getCargo());
+        usuarioResponse.setImagem(usuarioSalvo.getImagem());
+        usuarioResponse.setEmail(usuarioSalvo.getEmail());
+        usuarioResponse.setSenha(usuarioSalvo.getSenha());
+        usuarioResponse.setStatus(usuarioSalvo.getStatus());
+
+        return usuarioResponse;
+    }
+
+    public List<Usuario> listarUsuarios(){
+        return this.usuarioRepository.ListarUsuario();
+    }
+
+    public Usuario listarUsuarioPorId(int idUsuario){
+        return this.usuarioRepository.obterUsuarioPorId(idUsuario);
+    }
+
+    public UsuarioResponse salvarUsuario(UsuarioRequest usuarioRequest) {
+        Role role = new Role();
+        role= roleRepository.findByName(usuarioRequest.getRole());
+
+        Usuario usuario = new Usuario();
+        usuario.setNome(usuarioRequest.getNome());
+        usuario.setCargo(usuarioRequest.getCargo());
+        usuario.setImagem(usuarioRequest.getImagem());
+        usuario.setEmail(usuarioRequest.getEmail());
+        usuario.setSenha(securityConfiguration.passwordEncoder().encode(usuarioRequest.getSenha()));
+        usuario.setStatus(1);
+        usuario.setRoles(List.of(role));
+
+        Usuario usuarioSave = this.usuarioRepository.save(usuario);
+
+        return modelMapper.map(usuarioSave, UsuarioResponse.class);
+    }
+
+    public UsuarioResponse atualizarUsuario(@Valid Integer usuarioId, UsuarioRequest usuarioRequest){
+        Usuario usuario = this.usuarioRepository.obterUsuarioPorId(usuarioId);
+        if (usuario != null){
+            modelMapper.map(usuarioRequest,usuario);
+            Usuario usuarioSalvo = this.usuarioRepository.save(usuario);
+            return modelMapper.map(usuarioSalvo,UsuarioResponse.class);
+        }else{
+            return null;
+        }
+    }
+
+    public void apagarUsuario (Integer usuarioId){
+
+        this.usuarioRepository.apagarUsuario(usuarioId);
+    }
+
+    public RecoveryJwtTokenDto authenticateUser(LoginUserDto loginUserDto) {
+        // Cria um objeto de autenticação com o email e a senha do usuário
+        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
+                new UsernamePasswordAuthenticationToken(loginUserDto.email(), loginUserDto.password());
+
+        // Autentica o usuário com as credenciais fornecidas
+        Authentication authentication = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
+
+        // Obtém o objeto UserDetails do usuário autenticado
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        Usuario usuario = usuarioRepository.findByEmail(loginUserDto.email()).orElse(null);
+        UsuarioLoginDTOResponse usuarioLogin = new UsuarioLoginDTOResponse();
+        usuarioLogin.setId(usuario.getId());
+        usuarioLogin.setNome(usuario.getNome());
+        usuarioLogin.setCargo(usuario.getCargo());
+        usuarioLogin.setEmail(usuario.getEmail());
+        usuarioLogin.setImagem(usuario.getImagem());
+        usuarioLogin.setStatus(usuario.getStatus());
+
+        // Gera um token JWT para o usuário autenticado
+        return new RecoveryJwtTokenDto(usuarioLogin, jwtTokenService.generateToken(userDetails));
+    }
+
 }
 

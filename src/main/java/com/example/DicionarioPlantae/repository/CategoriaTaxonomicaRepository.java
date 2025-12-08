@@ -1,5 +1,6 @@
 package com.example.DicionarioPlantae.repository;
 
+import com.example.DicionarioPlantae.dto.response.CategoriaTaxonomicaDTOResponse;
 import com.example.DicionarioPlantae.entity.CategoriaTaxonomica;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -19,7 +20,7 @@ public interface CategoriaTaxonomicaRepository extends JpaRepository<CategoriaTa
     void apagarCategoriaTaxonomica (@Param("id")Integer id);
 
     @Query("SELECT c FROM Categoria c WHERE c.status >= 0")
-    List<CategoriaTaxonomica> listarCategoriaTaxonomica();
+    List<CategoriaTaxonomicaDTOResponse> listarCategoriaTaxonomica();
 
     @Query("SELECT c FROM Categoria c WHERE c.id = :id")
     CategoriaTaxonomica obterCategoriaTaxonomicaPorId (@Param("id")Integer id);

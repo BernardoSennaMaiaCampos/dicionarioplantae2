@@ -12,6 +12,15 @@ public class CategoriaTaxonomica {
     @Column(name="categoria_taxonomica_id")
     private int id;
 
+    @Column(name="categoria_taxonomica_nome")
+    private String nome;
+
+    @Column(name="categoria_taxonomica_status")
+    private int status;
+
+    @OneToMany(mappedBy = "categoriaTaxonomica")
+    private Set<Planta> plantas;
+
     public int getId() {
         return id;
     }
@@ -44,14 +53,7 @@ public class CategoriaTaxonomica {
         this.plantas = plantas;
     }
 
-    @Column(name="categoria_taxonomica_nome")
-    private String nome;
 
-    @Column(name="categoria_taxonomica_status")
-    private int status;
-
-    @OneToMany(mappedBy = "categoriaTaxonomica")
-    private Set<Planta> plantas;
 
 
 }
