@@ -19,10 +19,10 @@ public interface CategoriaTaxonomicaRepository extends JpaRepository<CategoriaTa
     @Query("UPDATE CategoriaTaxonomica c SET c.status = -1 WHERE c.id = :id")
     void apagarCategoriaTaxonomica (@Param("id")Integer id);
 
-    @Query("SELECT c FROM Categoria c WHERE c.status >= 0")
+    @Query("SELECT c FROM CategoriaTaxonomica c WHERE c.status >= 0")
     List<CategoriaTaxonomicaDTOResponse> listarCategoriaTaxonomica();
 
-    @Query("SELECT c FROM Categoria c WHERE c.id = :id")
+    @Query("SELECT c FROM CategoriaTaxonomica c WHERE c.id = :id")
     CategoriaTaxonomica obterCategoriaTaxonomicaPorId (@Param("id")Integer id);
 
 
