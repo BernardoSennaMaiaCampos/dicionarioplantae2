@@ -2,23 +2,22 @@ package com.example.DicionarioPlantae.dto.request;
 
 public class OrigemDTORequest {
 
-    private String nome;
-    private int status;
+    private String tipo;
+    private Integer status;
 
-    public String getNome() {
-        return nome;
+    public String getTipo() {
+        return tipo;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 
-    public int getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
-
 }

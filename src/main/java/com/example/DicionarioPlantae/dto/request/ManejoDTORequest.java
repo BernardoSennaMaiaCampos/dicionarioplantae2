@@ -2,23 +2,31 @@ package com.example.DicionarioPlantae.dto.request;
 
 public class ManejoDTORequest {
 
-    private String nome;
-    private int status;
+    private Integer plantaId;
+    private String descricao;
+    private Integer status;
 
-    public String getNome() {
-        return nome;
+    public Integer getPlantaId() {
+        return plantaId;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setPlantaId(Integer plantaId) {
+        this.plantaId = plantaId;
     }
 
-    public int getStatus() {
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
-
 }

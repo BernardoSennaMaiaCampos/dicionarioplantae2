@@ -4,7 +4,10 @@ package com.example.DicionarioPlantae.service;
 
 import com.example.DicionarioPlantae.config.SecurityConfiguration;
 import com.example.DicionarioPlantae.dto.request.UsuarioRequest;
+import com.example.DicionarioPlantae.dto.response.UsuarioLoginDTOResponse;
 import com.example.DicionarioPlantae.dto.response.UsuarioResponse;
+import com.example.DicionarioPlantae.dto.roles.LoginUserDto;
+import com.example.DicionarioPlantae.dto.roles.RecoveryJwtTokenDto;
 import com.example.DicionarioPlantae.entity.Roles.Role;
 import com.example.DicionarioPlantae.entity.Usuario;
 import com.example.DicionarioPlantae.repository.RoleRepository;
@@ -13,6 +16,8 @@ import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -45,8 +50,6 @@ public class UsuarioService {
 
         Usuario usuario = new Usuario();
         usuario.setNome(usuarioRequest.getNome());
-        usuario.setCargo(usuarioRequest.getCargo());
-        usuario.setImagem(usuarioRequest.getImagem());
         usuario.setEmail(usuarioRequest.getEmail());
         usuario.setSenha(securityConfiguration.passwordEncoder().encode(usuarioRequest.getSenha()));
         usuario.setStatus(usuarioRequest.getStatus());
@@ -57,8 +60,6 @@ public class UsuarioService {
         UsuarioResponse usuarioResponse = new UsuarioResponse();
         usuarioResponse.setId(usuarioSalvo.getId());
         usuarioResponse.setNome(usuarioSalvo.getNome());
-        usuarioResponse.setCargo(usuarioSalvo.getCargo());
-        usuarioResponse.setImagem(usuarioSalvo.getImagem());
         usuarioResponse.setEmail(usuarioSalvo.getEmail());
         usuarioResponse.setSenha(usuarioSalvo.getSenha());
         usuarioResponse.setStatus(usuarioSalvo.getStatus());
@@ -80,8 +81,6 @@ public class UsuarioService {
 
         Usuario usuario = new Usuario();
         usuario.setNome(usuarioRequest.getNome());
-        usuario.setCargo(usuarioRequest.getCargo());
-        usuario.setImagem(usuarioRequest.getImagem());
         usuario.setEmail(usuarioRequest.getEmail());
         usuario.setSenha(securityConfiguration.passwordEncoder().encode(usuarioRequest.getSenha()));
         usuario.setStatus(1);
@@ -122,9 +121,7 @@ public class UsuarioService {
         UsuarioLoginDTOResponse usuarioLogin = new UsuarioLoginDTOResponse();
         usuarioLogin.setId(usuario.getId());
         usuarioLogin.setNome(usuario.getNome());
-        usuarioLogin.setCargo(usuario.getCargo());
         usuarioLogin.setEmail(usuario.getEmail());
-        usuarioLogin.setImagem(usuario.getImagem());
         usuarioLogin.setStatus(usuario.getStatus());
 
         // Gera um token JWT para o usuário autenticado

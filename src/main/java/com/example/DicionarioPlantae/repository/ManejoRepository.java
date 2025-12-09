@@ -1,5 +1,6 @@
 package com.example.DicionarioPlantae.repository;
 
+import com.example.DicionarioPlantae.dto.response.ManejoResponse;
 import com.example.DicionarioPlantae.entity.CategoriaTaxonomica;
 import com.example.DicionarioPlantae.entity.Manejo;
 import org.springframework.data.jpa.repository.JpaRepository;

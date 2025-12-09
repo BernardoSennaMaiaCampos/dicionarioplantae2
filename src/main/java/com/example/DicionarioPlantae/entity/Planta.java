@@ -29,7 +29,7 @@ public class Planta {
   @JsonIgnore
   @ManyToOne
   @JoinColumn(name ="categoria_taxonomica_id", nullable = false)
-  private Categoria_taxonomica categoria_taxonomica;
+  private CategoriaTaxonomica categoriaTaxonomica;
 
   @JsonIgnore
   @ManyToOne
@@ -38,25 +38,25 @@ public class Planta {
 
   @JsonIgnore
   @ManyToOne
-  @JoinColumn(name = "classificacao_angiosperma", nullable = false)
-  private Classificao_angiosperma Classificacao_angiosperma;
+  @JoinColumn(name = "classificacao_angiosperma_id", nullable = false)
+  private ClassificaoAngiosperma classificaoAngiosperma ;
 
   @OneToMany (mappedBy = "planta")
 
-  public Categoria_taxonomica getCategoria_taxonomica() {
-    return categoria_taxonomica;
+  public CategoriaTaxonomica getCategoriaTaxonomica() {
+    return categoriaTaxonomica ;
   }
 
-  public void setCategoria_taxonomica(Categoria_taxonomica categoria_taxonomica) {
-    this.categoria_taxonomica = categoria_taxonomica;
+  public void setCategoriaTaxonomica(CategoriaTaxonomica categoriaTaxonomica) {
+    this.categoriaTaxonomica = categoriaTaxonomica;
   }
 
-  public Classificao_angiosperma getClassificacao_angiosperma() {
-    return Classificacao_angiosperma;
+  public ClassificaoAngiosperma getClassificacaoAngiosperma() {
+    return classificaoAngiosperma;
   }
 
-  public void setClassificacao_angiosperma(Classificao_angiosperma classificacao_angiosperma) {
-    Classificacao_angiosperma = classificacao_angiosperma;
+  public void setClassificacaoAngiosperma(ClassificaoAngiosperma classificacaoAngiosperma ) {
+    ClassificacaoAngiosperma = classificacaoAngiosperma;
   }
 
 
