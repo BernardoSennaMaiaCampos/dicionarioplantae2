@@ -1,7 +1,5 @@
 package com.example.DicionarioPlantae.service;
 
-
-
 import com.example.DicionarioPlantae.config.SecurityConfiguration;
 import com.example.DicionarioPlantae.dto.request.UsuarioRequest;
 import com.example.DicionarioPlantae.dto.response.UsuarioLoginDTOResponse;
@@ -25,8 +23,6 @@ import java.util.List;
 @Service
 public class UsuarioService {
 
-  @Autowired
-  private UsuarioRepository usuarioRepository;
     @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired
@@ -44,9 +40,10 @@ public class UsuarioService {
         this.modelMapper = modelMapper;
         this.roleRepository = roleRepository;
     }
+
     public UsuarioResponse criarUsuario(UsuarioRequest usuarioRequest) {
         Role role = new Role();
-        role= roleRepository.findByName(usuarioRequest.getRole());
+        role = roleRepository.findByName(usuarioRequest.getRole());
 
         Usuario usuario = new Usuario();
         usuario.setNome(usuarioRequest.getNome());
@@ -67,17 +64,17 @@ public class UsuarioService {
         return usuarioResponse;
     }
 
-    public List<Usuario> listarUsuarios(){
+    public List<Usuario> listarUsuarios() {
         return this.usuarioRepository.ListarUsuario();
     }
 
-    public Usuario listarUsuarioPorId(int idUsuario){
+    public Usuario listarUsuarioPorId(int idUsuario) {
         return this.usuarioRepository.obterUsuarioPorId(idUsuario);
     }
 
     public UsuarioResponse salvarUsuario(UsuarioRequest usuarioRequest) {
         Role role = new Role();
-        role= roleRepository.findByName(usuarioRequest.getRole());
+        role = roleRepository.findByName(usuarioRequest.getRole());
 
         Usuario usuario = new Usuario();
         usuario.setNome(usuarioRequest.getNome());
@@ -91,26 +88,26 @@ public class UsuarioService {
         return modelMapper.map(usuarioSave, UsuarioResponse.class);
     }
 
-    public UsuarioResponse atualizarUsuario(@Valid Integer usuarioId, UsuarioRequest usuarioRequest){
+    public UsuarioResponse atualizarUsuario(@Valid Integer usuarioId, UsuarioRequest usuarioRequest) {
         Usuario usuario = this.usuarioRepository.obterUsuarioPorId(usuarioId);
-        if (usuario != null){
-            modelMapper.map(usuarioRequest,usuario);
+        if (usuario != null) {
+            modelMapper.map(usuarioRequest, usuario);
             Usuario usuarioSalvo = this.usuarioRepository.save(usuario);
-            return modelMapper.map(usuarioSalvo,UsuarioResponse.class);
-        }else{
+            return modelMapper.map(usuarioSalvo, UsuarioResponse.class);
+        } else {
             return null;
         }
     }
 
-    public void apagarUsuario (Integer usuarioId){
+    public void apagarUsuario(Integer usuarioId) {
 
         this.usuarioRepository.apagarUsuario(usuarioId);
     }
 
     public RecoveryJwtTokenDto authenticateUser(LoginUserDto loginUserDto) {
         // Cria um objeto de autenticação com o email e a senha do usuário
-        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
-                new UsernamePasswordAuthenticationToken(loginUserDto.email(), loginUserDto.password());
+        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
+                loginUserDto.email(), loginUserDto.password());
 
         // Autentica o usuário com as credenciais fornecidas
         Authentication authentication = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
@@ -129,4 +126,3 @@ public class UsuarioService {
     }
 
 }
-

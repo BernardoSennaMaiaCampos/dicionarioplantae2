@@ -3,32 +3,30 @@ package com.example.DicionarioPlantae.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
-
-
 @Entity
 @Table(name = "planta")
 public class Planta {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name="planta_id")
+  @Column(name = "planta_id")
   private Integer id;
 
-  @Column(name="planta_nome_cientifico")
+  @Column(name = "planta_nome_cientifico")
   private String cientifico;
 
-  @Column(name="planta_nome_popular")
+  @Column(name = "planta_nome_popular")
   private String popular;
 
-  @Column (name="planta_comestivel")
+  @Column(name = "planta_comestivel")
   private Integer comestivel;
 
-  @Column (name="planta_status")
+  @Column(name = "planta_status")
   private Integer status;
 
   @JsonIgnore
   @ManyToOne
-  @JoinColumn(name ="categoria_taxonomica_id", nullable = false)
+  @JoinColumn(name = "categoria_taxonomica_id", nullable = false)
   private CategoriaTaxonomica categoriaTaxonomica;
 
   @JsonIgnore
@@ -39,26 +37,25 @@ public class Planta {
   @JsonIgnore
   @ManyToOne
   @JoinColumn(name = "classificacao_angiosperma_id", nullable = false)
-  private ClassificaoAngiosperma classificaoAngiosperma ;
+  private ClassificacaoAngiosperma classificacaoAngiosperma;
 
-  @OneToMany (mappedBy = "planta")
+  @OneToMany(mappedBy = "planta")
 
   public CategoriaTaxonomica getCategoriaTaxonomica() {
-    return categoriaTaxonomica ;
+    return categoriaTaxonomica;
   }
 
   public void setCategoriaTaxonomica(CategoriaTaxonomica categoriaTaxonomica) {
     this.categoriaTaxonomica = categoriaTaxonomica;
   }
 
-  public ClassificaoAngiosperma getClassificacaoAngiosperma() {
-    return classificaoAngiosperma;
+  public ClassificacaoAngiosperma getClassificacaoAngiosperma() {
+    return classificacaoAngiosperma;
   }
 
-  public void setClassificacaoAngiosperma(ClassificaoAngiosperma classificacaoAngiosperma ) {
-    ClassificacaoAngiosperma = classificacaoAngiosperma;
+  public void setClassificacaoAngiosperma(ClassificacaoAngiosperma classificacaoAngiosperma) {
+    this.classificacaoAngiosperma = classificacaoAngiosperma;
   }
-
 
   public Integer getId() {
     return id;
@@ -100,7 +97,6 @@ public class Planta {
     this.status = status;
   }
 
-
   public Origem getOrigem() {
     return origem;
   }
@@ -108,13 +104,5 @@ public class Planta {
   public void setOrigem(Origem origem) {
     this.origem = origem;
   }
-
-
-
-
-
-
-
-
 
 }

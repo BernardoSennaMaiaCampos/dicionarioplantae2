@@ -28,24 +28,24 @@ public class UsuarioController {
 
     @GetMapping("/listar")
     @Operation(summary = "Listar usuarios do sistema")
-    public ResponseEntity<List<Usuario>> listar(){
+    public ResponseEntity<List<Usuario>> listar() {
         return ResponseEntity.ok(usuarioService.listarUsuarios());
     }
 
     @GetMapping("/listarPorIdUsuario/{idUsuario}")
     @Operation(summary = "Listar usuarios do sistema pelo id do usuário")
-    public ResponseEntity<Usuario> listarPorIdUsuario(@PathVariable("idUsuario") Integer idUsuario){
+    public ResponseEntity<Usuario> listarPorIdUsuario(@PathVariable("idUsuario") Integer idUsuario) {
         Usuario usuario = usuarioService.listarUsuarioPorId(idUsuario);
         if (usuario == null) {
             return ResponseEntity.noContent().build();
-        }else{
+        } else {
             return ResponseEntity.ok(usuario);
         }
     }
 
     @PostMapping("/criar")
     @Operation(summary = "Criar um novo usuario")
-    public ResponseEntity<UsuarioResponse>criar(@Valid @RequestBody UsuarioRequest usuarioRequest){
+    public ResponseEntity<UsuarioResponse> criar(@Valid @RequestBody UsuarioRequest usuarioRequest) {
         return ResponseEntity.ok(usuarioService.salvarUsuario(usuarioRequest));
     }
 
@@ -56,19 +56,18 @@ public class UsuarioController {
             @RequestBody UsuarioRequest usuarioRequest) {
         return ResponseEntity.ok(usuarioService.atualizarUsuario(idUsuario, usuarioRequest));
     }
+
     @DeleteMapping("/apagar/{idUsuario}")
     @Operation(summary = "Apagar usuario pelo idUsuario")
-    public ResponseEntity<UsuarioResponse> apagar(@PathVariable("idUsuario") Integer idUsuario){
+    public ResponseEntity<UsuarioResponse> apagar(@PathVariable("idUsuario") Integer idUsuario) {
         usuarioService.apagarUsuario(idUsuario);
         return ResponseEntity.noContent().build();
     }
 
     @PostMapping("/login")
-    public ResponseEntity<RecoveryJwtTokenDto> authenticateUser (@RequestBody LoginUserDto loginUserDto){
-        RecoveryJwtTokenDto token = usuarioService.authenticateUser(LoginUserDto);
+    public ResponseEntity<RecoveryJwtTokenDto> authenticateUser(@RequestBody LoginUserDto loginUserDto) {
+        RecoveryJwtTokenDto token = usuarioService.authenticateUser(loginUserDto);
         return new ResponseEntity<>(token, HttpStatus.OK);
     }
 
 }
-
-
