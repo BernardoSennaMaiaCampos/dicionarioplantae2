@@ -17,12 +17,14 @@ public interface PlantaRepository extends JpaRepository<Planta, Integer> {
     @Modifying
     @Transactional
     @Query("UPDATE Planta c SET c.status = -1 WHERE c.id = :id")
-    void apagarPlanta (@Param("id")Integer id);
+    void apagarPlanta(@Param("id") Integer id);
 
     @Query("SELECT c FROM Planta c WHERE c.status >= 0")
     List<PlantaDTOResponse> listarPlanta();
 
     @Query("SELECT c FROM Planta c WHERE c.id = :id")
-    Planta obterPlantaPorId (@Param("id")Integer id);
+    Planta obterPlantaPorId(@Param("id") Integer id);
+
+    List<Planta> findByPopularContainingIgnoreCase(String popular);
 
 }

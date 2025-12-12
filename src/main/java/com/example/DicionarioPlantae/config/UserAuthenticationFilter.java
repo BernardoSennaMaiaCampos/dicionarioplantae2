@@ -1,6 +1,5 @@
 package com.example.DicionarioPlantae.config;
 
-
 import com.example.DicionarioPlantae.entity.Usuario;
 import com.example.DicionarioPlantae.entity.Usuario;
 import com.example.DicionarioPlantae.repository.UsuarioRepository;
@@ -20,7 +19,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.util.Arrays;
 
-
 @Component
 public class UserAuthenticationFilter extends OncePerRequestFilter {
 
@@ -31,18 +29,22 @@ public class UserAuthenticationFilter extends OncePerRequestFilter {
     private UsuarioRepository usuarioRepository; // Repository que definimos anteriormente
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException {
         // Verifica se o endpoint requer autenticação antes de processar a requisição
         if (checkIfEndpointIsNotPublic(request)) {
             String token = recoveryToken(request); // Recupera o token do cabeçalho Authorization da requisição
             if (token != null) {
-                String subject = jwtTokenService.getSubjectFromToken(token); // Obtém o assunto (neste caso, o nome de usuário) do token
-                Usuario usuario = usuarioRepository.findByEmail(subject).get(); // Busca o usuário pelo email (que é o assunto do token)
-                UserDetailsImpl userDetails = new UserDetailsImpl(usuario); // Cria um UserDetails com o usuário encontrado
+                String subject = jwtTokenService.getSubjectFromToken(token); // Obtém o assunto (neste caso, o nome de
+                                                                             // usuário) do token
+                Usuario usuario = usuarioRepository.findByEmail(subject).get(); // Busca o usuário pelo email (que é o
+                                                                                // assunto do token)
+                UserDetailsImpl userDetails = new UserDetailsImpl(usuario); // Cria um UserDetails com o usuário
+                                                                            // encontrado
 
                 // Cria um objeto de autenticação do Spring Security
-                Authentication authentication =
-                        new UsernamePasswordAuthenticationToken(userDetails.getUsername(), null, userDetails.getAuthorities());
+                Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails.getUsername(), null,
+                        userDetails.getAuthorities());
 
                 // Define o objeto de autenticação no contexto de segurança do Spring Security
                 SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -64,11 +66,17 @@ public class UserAuthenticationFilter extends OncePerRequestFilter {
 
     // Verifica se o endpoint requer autenticação antes de processar a requisição
     private boolean checkIfEndpointIsNotPublic(HttpServletRequest request) {
-        //ajustado para funcionamento do swagger
+        // ajustado para funcionamento do swagger
         String requestURI = request.getRequestURI();
-        return Arrays.stream(SecurityConfiguration.ENDPOINTS_WITH_AUTHENTICATION_NOT_REQUIRED).noneMatch(publicEndpoint ->
-                requestURI.startsWith(publicEndpoint.replace("/**", "")) // suporta wildcard
-        );
+        System.out.println("Checking URI: " + requestURI); // DEBUG
+        boolean isPublic = Arrays.stream(SecurityConfiguration.ENDPOINTS_WITH_AUTHENTICATION_NOT_REQUIRED)
+                .anyMatch(publicEndpoint -> {
+                    boolean match = requestURI.startsWith(publicEndpoint.replace("/**", ""));
+                    if (match)
+                        System.out.println("Matched Public Endpoint: " + publicEndpoint); // DEBUG
+                    return match;
+                });
+        return !isPublic;
     }
 
 }
